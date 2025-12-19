@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Guten Tag Ramon - Digitale Bibliothek</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      .book {
+        transition: all 0.3s ease;
+        cursor: pointer;
+      }
+      .book:hover {
+        transform: translateY(-10px) scale(1.05);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      }
+      .book-spine {
+        writing-mode: vertical-rl;
+        text-orientation: mixed;
+      }
+      .modal {
+        backdrop-filter: blur(10px);
+      }
+      .book-taken {
+        opacity: 0.3;
+        transform: scale(0.9);
+      }
+
+      /* Responsive book sizes */
+      @media (max-width: 640px) {
+        .book {
+          width: 2rem !important;
+          height: 8rem !important;
+          font-size: 0.6rem;
+        }
+        .book-spine {
+          padding: 0.25rem;
+        }
+      }
+
+      @media (min-width: 641px) and (max-width: 768px) {
+        .book {
+          width: 2.5rem !important;
+          height: 10rem !important;
+          font-size: 0.7rem;
+        }
+      }
+
+      @media (min-width: 769px) {
+        .book {
+          width: 3rem !important;
+          height: 12rem !important;
+        }
+      }
+
+      /* Responsive shelf spacing */
+      @media (max-width: 640px) {
+        .shelf-container {
+          gap: 0.25rem;
+        }
+      }
+
+      @media (min-width: 641px) {
+        .shelf-container {
+          gap: 0.5rem;
+        }
+      }
+    </style>
+    <style>
+      @view-transition {
+        navigation: auto;
+      }
+    </style>
+    <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+    <script src="/_sdk/element_sdk.js" type="text/javascript"></script>
+  </head>
+  <body class="bg-gradient-to-br from-amber-50 to-orange-100 min-h-screen">
+    <!-- Header -->
+    <header
+      class="bg-gradient-to-r from-amber-800 to-orange-700 text-white p-4 sm:p-6 shadow-lg"
+    >
+      <div class="container mx-auto">
+        <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-center">
+          📚 Guten Tag Ramon
+        </h1>
+        <p class="text-center mt-2 text-amber-100 text-sm sm:text-base">
+          Entdecken, ausleihen und die besten Bücher lesen
+        </p>
+      </div>
+    </header>
+    <!-- Main Content -->
+    <main class="container mx-auto p-3 sm:p-4 lg:p-6">
+      <!-- Bookshelf -->
+      <div
+        class="bg-gradient-to-b from-amber-900 to-amber-800 p-4 sm:p-6 lg:p-8 rounded-lg shadow-2xl mb-6 sm:mb-8"
+      >
+        <h2
+          class="text-xl sm:text-2xl font-bold text-amber-100 mb-4 sm:mb-6 text-center"
+        >
+          Hauptbücherregal
+        </h2>
+        <!-- Shelf 1 -->
+        <div
+          class="bg-amber-700 p-2 sm:p-3 lg:p-4 rounded mb-3 sm:mb-4 shadow-inner"
+        >
+          <div class="flex justify-center flex-wrap shelf-container">
+            <div
+              class="book bg-red-800 w-12 h-48 rounded-sm shadow-lg flex items-center justify-center"
+              data-book="1"
+            >
+              <span class="book-spine text-white text-xs font-bold px-1"
+                >Zarathustra</span
+              >
+            </div>
+            <div
+              class="book bg-amber-900 w-12 h-48 rounded-sm shadow-lg flex items-center justify-center"
+              data-book="2"
+            >
+              <span class="book-spine text-amber-100 text-xs font-bold px-1"
+                >Faust</span
+              >
+            </div>
+            <div
+              class="book bg-stone-700 w-12 h-48 rounded-sm shadow-lg flex items-center justify-center"
+              data-book="3"
+            >
+              <span class="book-spine text-white text-xs font-bold px-1"
+                >Wille</span
+              >
+            </div>
+            <div
+              class="book bg-blue-800 w-12 h-48 rounded-sm shadow-lg flex items-center justify-center"
+              data-book="4"
+            >
+              <span class="book-spine text-white text-xs font-bold px-1"
+                >Werther</span
+              >
+            </div>
+            <div
+              class="book bg-purple-900 w-12 h-48 rounded-sm shadow-lg flex items-center justify-center"
+              data-book="5"
+            >
+              <span class="book-spine text-white text-xs font-bold px-1"
+                >Gut &amp; Böse</span
+              >
+            </div>
+            <div
+              class="book bg-gray-800 w-12 h-48 rounded-sm shadow-lg flex items-center justify-center"
+              data-book="10"
+            >
+              <span class="book-spine text-white text-xs font-bold px-1"
+                >Kant</span
+              >
+            </div>
+            <div
+              class="book bg-emerald-800 w-12 h-48 rounded-sm shadow-lg flex items-center justify-center"
+              data-book="11"
+            >
+              <span class="book-spine text-white text-xs font-bold px-1"
+                >Steppenwolf</span
+              >
+            </div>
+            <div
+              class="book bg-orange-700 w-12 h-48 rounded-sm shadow-lg flex items-center justify-center"
+              data-book="12"
+            >
+              <span class="book-spine text-white text-xs font-bold px-1"
+                >Siddhartha</span
+              >
+            </div>
+            <div
+              class="book bg-slate-700 w-12 h-48 rounded-sm shadow-lg flex items-center justify-center"
+              data-book="13"
+            >
+              <span class="book-spine text-white text-xs font-bold px-1"
+                >Das Schloss</span
+              >
+            </div>
+          </div>
+        </div>
+        <!-- Shelf 2 -->
+        <div
+          class="bg-amber-700 p-2 sm:p-3 lg:p-4 rounded mb-3 sm:mb-4 shadow-inner"
+        >
+          <div class="flex justify-center flex-wrap shelf-container">
+            <div
+              class="book bg-neutral-800 w-12 h-48 rounded-sm shadow-lg flex items-center justify-center"
+              data-book="6"
+            >
+              <span class="book-spine text-white text-xs font-bold px-1"
+                >Verwandlung</span
+              >
+            </div>
+            <div
+              class="book bg-zinc-700 w-12 h-48 rounded-sm shadow-lg flex items-center justify-center"
+              data-book="7"
+            >
+              <span class="book-spine text-white text-xs font-bold px-1"
+                >Der Prozess</span
+              >
+            </div>
+            <div
+              class="book bg-rose-900 w-12 h-48 rounded-sm shadow-lg flex items-center justify-center"
+              data-book="8"
+            >
+              <span class="book-spine text-white text-xs font-bold px-1"
+                >Tragödie</span
+              >
+            </div>
+            <div
+              class="book bg-teal-800 w-12 h-48 rounded-sm shadow-lg flex items-center justify-center"
+              data-book="9"
+            >
+              <span class="book-spine text-white text-xs font-bold px-1"
+                >W. Meister</span
+              >
+            </div>
+            <div
+              class="book bg-red-700 w-12 h-48 rounded-sm shadow-lg flex items-center justify-center"
+              data-book="14"
+            >
+              <span class="book-spine text-white text-xs font-bold px-1"
+                >Ecce Homo</span
+              >
+            </div>
+            <div
+              class="book bg-cyan-800 w-12 h-48 rounded-sm shadow-lg flex items-center justify-center"
+              data-book="15"
+            >
+              <span class="book-spine text-white text-xs font-bold px-1"
+                >Wahlverw.</span
+              >
+            </div>
+            <div
+              class="book bg-stone-600 w-12 h-48 rounded-sm shadow-lg flex items-center justify-center"
+              data-book="16"
+            >
+              <span class="book-spine text-white text-xs font-bold px-1"
+                >Parerga</span
+              >
+            </div>
+            <div
+              class="book bg-indigo-900 w-12 h-48 rounded-sm shadow-lg flex items-center justify-center"
+              data-book="17"
+            >
+              <span class="book-spine text-white text-xs font-bold px-1"
+                >Zauberberg</span
+              >
+            </div>
+          </div>
+        </div>
+        <!-- Shelf 3 -->
+        <div
+          class="bg-amber-700 p-2 sm:p-3 lg:p-4 rounded mb-3 sm:mb-4 shadow-inner"
+        >
+          <div class="flex justify-center flex-wrap shelf-container">
+            <div
+              class="book bg-yellow-800 w-12 h-48 rounded-sm shadow-lg flex items-center justify-center"
+              data-book="18"
+            >
+              <span class="book-spine text-white text-xs font-bold px-1"
+                >Buddenbrooks</span
+              >
+            </div>
+            <div
+              class="book bg-fuchsia-900 w-12 h-48 rounded-sm shadow-lg flex items-center justify-center"
+              data-book="19"
+            >
+              <span class="book-spine text-white text-xs font-bold px-1"
+                >Fröhliche W.</span
+              >
+            </div>
+            <div
+              class="book bg-sky-800 w-12 h-48 rounded-sm shadow-lg flex items-center justify-center"
+              data-book="20"
+            >
+              <span class="book-spine text-white text-xs font-bold px-1"
+                >Götz</span
+              >
+            </div>
+            <div
+              class="book bg-gray-700 w-12 h-48 rounded-sm shadow-lg flex items-center justify-center"
+              data-book="21"
+            >
+              <span class="book-spine text-white text-xs font-bold px-1"
+                >Metaphysik</span
+              >
+            </div>
+            <div
+              class="book bg-emerald-900 w-12 h-48 rounded-sm shadow-lg flex items-center justify-center"
+              data-book="22"
+            >
+              <span class="book-spine text-white text-xs font-bold px-1"
+                >Glasperlen</span
+              >
+            </div>
+            <div
+              class="book bg-rose-800 w-12 h-48 rounded-sm shadow-lg flex items-center justify-center"
+              data-book="23"
+            >
+              <span class="book-spine text-white text-xs font-bold px-1"
+                >Genealogie</span
+              >
+            </div>
+            <div
+              class="book bg-violet-900 w-12 h-48 rounded-sm shadow-lg flex items-center justify-center"
+              data-book="24"
+            >
+              <span class="book-spine text-white text-xs font-bold px-1"
+                >Die Räuber</span
+              >
+            </div>
+            <div
+              class="book bg-lime-800 w-12 h-48 rounded-sm shadow-lg flex items-center justify-center"
+              data-book="25"
+            >
+              <span class="book-spine text-white text-xs font-bold px-1"
+                >Ästhetik</span
+              >
+            </div>
+          </div>
+        </div>
+        <!-- Shelf 4 -->
+        <div class="bg-amber-700 p-2 sm:p-3 lg:p-4 rounded shadow-inner">
+          <div class="flex justify-center flex-wrap shelf-container">
+            <div
+              class="book bg-purple-800 w-12 h-48 rounded-sm shadow-lg flex items-center justify-center"
+              data-book="26"
+            >
+              <span class="book-spine text-white text-xs font-bold px-1"
+                >Demian</span
+              >
+            </div>
+            <div
+              class="book bg-teal-900 w-12 h-48 rounded-sm shadow-lg flex items-center justify-center"
+              data-book="27"
+            >
+              <span class="book-spine text-white text-xs font-bold px-1"
+                >Tod Venedig</span
+              >
+            </div>
+            <div
+              class="book bg-amber-800 w-12 h-48 rounded-sm shadow-lg flex items-center justify-center"
+              data-book="28"
+            >
+              <span class="book-spine text-white text-xs font-bold px-1"
+                >Nathan</span
+              >
+            </div>
+            <div
+              class="book bg-blue-900 w-12 h-48 rounded-sm shadow-lg flex items-center justify-center"
+              data-book="29"
+            >
+              <span class="book-spine text-white text-xs font-bold px-1"
+                >Maria Stuart</span
+              >
+            </div>
+            <div
+              class="book bg-green-900 w-12 h-48 rounded-sm shadow-lg flex items-center justify-center"
+              data-book="30"
+            >
+              <span class="book-spine text-white text-xs font-bold px-1"
+                >Wilhelm Tell</span
+              >
+            </div>
+            <div
+              class="book bg-red-900 w-12 h-48 rounded-sm shadow-lg flex items-center justify-center"
+              data-book="31"
+            >
+              <span class="book-spine text-white text-xs font-bold px-1"
+                >Wille Macht</span
+              >
+            </div>
+            <div
+              class="book bg-cyan-900 w-12 h-48 rounded-sm shadow-lg flex items-center justify-center"
+              data-book="32"
+            >
+              <span class="book-spine text-white text-xs font-bold px-1"
+                >Iphigenie</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Taken Books Section -->
+      <div class="bg-white p-4 sm:p-6 rounded-lg shadow-lg">
+        <h3 class="text-xl sm:text-2xl font-bold text-gray-800 mb-4">
+          📖 Ausgeliehene Bücher
+        </h3>
+        <div
+          id="takenBooks"
+          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4"
+        >
+          <p
+            class="text-gray-500 col-span-full text-center py-6 sm:py-8 text-sm sm:text-base"
+          >
+            Klicken Sie auf ein Buch im Regal, um es auszuleihen
+          </p>
+        </div>
+      </div>
+    </main>
+    <!-- Modal for Book Details -->
+    <div
+      id="bookModal"
+      class="fixed inset-0 bg-black bg-opacity-50 modal hidden items-center justify-center z-50 p-4"
+    >
+      <div
+        class="bg-white rounded-lg p-4 sm:p-6 lg:p-8 max-w-sm sm:max-w-md mx-auto shadow-2xl w-full"
+      >
+        <div class="flex justify-between items-start mb-4">
+          <h3
+            id="modalTitle"
+            class="text-lg sm:text-xl lg:text-2xl font-bold text-gray-800 pr-4"
+          ></h3>
+          <button
+            id="closeModal"
+            class="text-gray-500 hover:text-gray-700 text-xl sm:text-2xl flex-shrink-0"
+          >
+            ×
+          </button>
+        </div>
+        <div
+          id="modalContent"
+          class="text-gray-600 mb-4 sm:mb-6 text-sm sm:text-base"
+        ></div>
+        <div class="flex flex-col sm:flex-row gap-3 sm:gap-4">
+          <button
+            id="returnBook"
+            class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded transition-colors text-sm sm:text-base"
+          >
+            Buch Zurückgeben
+          </button>
+          <button
+            id="readBook"
+            class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded transition-colors text-sm sm:text-base"
+          >
+            Jetzt Lesen
+          </button>
+        </div>
+      </div>
+    </div>
+    <script>
+      const books = {
+        1: {
+          title: "Also sprach Zarathustra",
+          author: "Friedrich Nietzsche",
+          synopsis:
+            "Ein philosophisches Werk über den Übermenschen und den Tod Gottes. Zarathustra steigt vom Berg herab, um seine Weisheit mit der Menschheit zu teilen.",
+        },
+        2: {
+          title: "Faust",
+          author: "Johann Wolfgang von Goethe",
+          synopsis:
+            "Der Gelehrte Heinrich Faust schließt einen Pakt mit dem Teufel Mephistopheles. Das bedeutendste Werk der deutschen Literatur über Wissen, Macht und Erlösung.",
+        },
+        3: {
+          title: "Die Welt als Wille und Vorstellung",
+          author: "Arthur Schopenhauer",
+          synopsis:
+            "Eine philosophische Abhandlung, die die Welt als Manifestation eines blinden Willens erklärt. Ein Grundwerk des philosophischen Pessimismus.",
+        },
+        4: {
+          title: "Die Leiden des jungen Werthers",
+          author: "Johann Wolfgang von Goethe",
+          synopsis:
+            "Die tragische Geschichte einer unerfüllten Liebe, erzählt in Briefform. Ein Schlüsselwerk der Sturm-und-Drang-Bewegung.",
+        },
+        5: {
+          title: "Jenseits von Gut und Böse",
+          author: "Friedrich Nietzsche",
+          synopsis:
+            "Eine Kritik der traditionellen Moral und eine Untersuchung der Vorurteile der Philosophen. Nietzsche hinterfragt alle moralischen Grundlagen.",
+        },
+        6: {
+          title: "Die Verwandlung",
+          author: "Franz Kafka",
+          synopsis:
+            "Gregor Samsa erwacht als riesiges Insekt. Eine Allegorie über Entfremdung und die menschliche Existenz in der modernen Gesellschaft.",
+        },
+        7: {
+          title: "Der Prozess",
+          author: "Franz Kafka",
+          synopsis:
+            "Josef K. wird eines Morgens verhaftet, ohne zu wissen warum. Ein albtraumhaftes Werk über Bürokratie, Schuld und die Absurdität des Rechtssystems.",
+        },
+        8: {
+          title: "Die Geburt der Tragödie",
+          author: "Friedrich Nietzsche",
+          synopsis:
+            "Eine Untersuchung des apollinischen und dionysischen Prinzips in der griechischen Tragödie. Nietzsches erstes großes philosophisches Werk.",
+        },
+        9: {
+          title: "Wilhelm Meisters Lehrjahre",
+          author: "Johann Wolfgang von Goethe",
+          synopsis:
+            "Der prototypische Bildungsroman über einen jungen Mann auf der Suche nach seiner Bestimmung in der Welt des Theaters.",
+        },
+        10: {
+          title: "Kritik der reinen Vernunft",
+          author: "Immanuel Kant",
+          synopsis:
+            "Das fundamentale Werk der modernen Philosophie, das die Grenzen und Möglichkeiten menschlicher Erkenntnis untersucht.",
+        },
+        11: {
+          title: "Der Steppenwolf",
+          author: "Hermann Hesse",
+          synopsis:
+            "Harry Haller kämpft mit seiner gespaltenen Natur zwischen Mensch und Wolf. Eine tiefgründige Erforschung der menschlichen Psyche.",
+        },
+        12: {
+          title: "Siddhartha",
+          author: "Hermann Hesse",
+          synopsis:
+            "Die spirituelle Reise eines jungen Brahmanen auf der Suche nach Erleuchtung im alten Indien. Ein poetisches Werk über Selbstfindung.",
+        },
+        13: {
+          title: "Das Schloss",
+          author: "Franz Kafka",
+          synopsis:
+            "K. versucht vergeblich, Zugang zu einem mysteriösen Schloss zu erlangen. Eine Parabel über Bürokratie und die Suche nach Sinn.",
+        },
+        14: {
+          title: "Ecce Homo",
+          author: "Friedrich Nietzsche",
+          synopsis:
+            "Nietzsches autobiografisches Werk, in dem er sein Leben und seine Philosophie reflektiert. Eine radikale Selbstbetrachtung.",
+        },
+        15: {
+          title: "Die Wahlverwandtschaften",
+          author: "Johann Wolfgang von Goethe",
+          synopsis:
+            "Zwei Paare verstricken sich in komplizierte Liebesbeziehungen. Eine Untersuchung von Leidenschaft, Moral und Naturgesetzen.",
+        },
+        16: {
+          title: "Parerga und Paralipomena",
+          author: "Arthur Schopenhauer",
+          synopsis:
+            "Eine Sammlung philosophischer Essays über Kunst, Moral und das menschliche Leben. Schopenhauers zugänglichstes Werk.",
+        },
+        17: {
+          title: "Der Zauberberg",
+          author: "Thomas Mann",
+          synopsis:
+            "Hans Castorp verbringt sieben Jahre in einem Schweizer Sanatorium. Ein monumentales Werk über Zeit, Krankheit und europäische Kultur.",
+        },
+        18: {
+          title: "Buddenbrooks",
+          author: "Thomas Mann",
+          synopsis:
+            "Der Verfall einer Lübecker Kaufmannsfamilie über vier Generationen. Thomas Manns Nobelpreis-gekröntes Meisterwerk.",
+        },
+        19: {
+          title: "Die fröhliche Wissenschaft",
+          author: "Friedrich Nietzsche",
+          synopsis:
+            "Eine Sammlung von Aphorismen und Gedichten, die den 'Tod Gottes' verkündet. Eines von Nietzsches persönlichsten Werken.",
+        },
+        20: {
+          title: "Götz von Berlichingen",
+          author: "Johann Wolfgang von Goethe",
+          synopsis:
+            "Das Drama eines Ritters, der für seine Freiheit kämpft. Ein Schlüsselwerk des Sturm und Drang.",
+        },
+        21: {
+          title: "Grundlegung zur Metaphysik der Sitten",
+          author: "Immanuel Kant",
+          synopsis:
+            "Die Grundlage von Kants Ethik und der kategorische Imperativ. Ein fundamentales Werk der Moralphilosophie.",
+        },
+        22: {
+          title: "Das Glasperlenspiel",
+          author: "Hermann Hesse",
+          synopsis:
+            "In einer fernen Zukunft widmet sich eine Elite dem intellektuellen Spiel. Hesses letzter und nobelpreisgekrönter Roman.",
+        },
+        23: {
+          title: "Zur Genealogie der Moral",
+          author: "Friedrich Nietzsche",
+          synopsis:
+            "Eine Untersuchung der Ursprünge moralischer Begriffe wie Gut, Böse und Schuld. Nietzsches systematischstes Werk.",
+        },
+        24: {
+          title: "Die Räuber",
+          author: "Friedrich Schiller",
+          synopsis:
+            "Zwei Brüder in tödlichem Konflikt: einer wird Räuberhauptmann, der andere ein Intrigant. Schillers erstes revolutionäres Drama.",
+        },
+        25: {
+          title: "Über die ästhetische Erziehung des Menschen",
+          author: "Friedrich Schiller",
+          synopsis:
+            "Eine philosophische Untersuchung der Rolle der Kunst in der menschlichen Entwicklung. Schillers wichtigstes ästhetisches Werk.",
+        },
+        26: {
+          title: "Demian",
+          author: "Hermann Hesse",
+          synopsis:
+            "Emil Sinclair sucht seinen Weg zwischen zwei Welten - der hellen bürgerlichen und der dunklen verbotenen. Eine Entwicklungsgeschichte.",
+        },
+        27: {
+          title: "Der Tod in Venedig",
+          author: "Thomas Mann",
+          synopsis:
+            "Ein alternder Schriftsteller verfällt in Venedig einer fatalen Obsession. Eine Novelle über Schönheit, Verfall und künstlerische Hingabe.",
+        },
+        28: {
+          title: "Nathan der Weise",
+          author: "Gotthold Ephraim Lessing",
+          synopsis:
+            "Ein Drama über religiöse Toleranz im Jerusalem der Kreuzzüge. Die berühmte Ringparabel als Plädoyer für Humanismus.",
+        },
+        29: {
+          title: "Maria Stuart",
+          author: "Friedrich Schiller",
+          synopsis:
+            "Der tragische Konflikt zwischen Maria Stuart und Elisabeth I. von England. Ein Drama über Macht, Religion und weibliche Rivalität.",
+        },
+        30: {
+          title: "Wilhelm Tell",
+          author: "Friedrich Schiller",
+          synopsis:
+            "Der legendäre Schweizer Freiheitskämpfer und sein berühmter Apfelschuss. Ein Drama über Tyrannei und den Kampf für Freiheit.",
+        },
+        31: {
+          title: "Der Wille zur Macht",
+          author: "Friedrich Nietzsche",
+          synopsis:
+            "Eine posthume Sammlung von Nietzsches Notizen über Macht, Werte und die Überwindung des Nihilismus.",
+        },
+        32: {
+          title: "Iphigenie auf Tauris",
+          author: "Johann Wolfgang von Goethe",
+          synopsis:
+            "Iphigenie bringt Humanität in eine barbarische Welt. Goethes klassisches Drama über Wahrheit und Menschlichkeit.",
+        },
+      };
+
+      let takenBooks = [];
+
+      // Event listeners for books
+      document.querySelectorAll(".book").forEach((book) => {
+        book.addEventListener("click", function () {
+          const bookId = this.getAttribute("data-book");
+          takeBook(bookId, this);
+        });
+      });
+
+      function takeBook(bookId, bookElement) {
+        if (takenBooks.includes(bookId)) return;
+
+        // Add to taken books
+        takenBooks.push(bookId);
+        bookElement.classList.add("book-taken");
+
+        // Add to taken books section
+        updateTakenBooksDisplay();
+
+        // Show modal
+        showBookModal(bookId);
+      }
+
+      function updateTakenBooksDisplay() {
+        const container = document.getElementById("takenBooks");
+
+        if (takenBooks.length === 0) {
+          container.innerHTML =
+            '<p class="text-gray-500 col-span-full text-center py-6 sm:py-8 text-sm sm:text-base">Klicken Sie auf ein Buch im Regal, um es auszuleihen</p>';
+          return;
+        }
+
+        container.innerHTML = takenBooks
+          .map((bookId) => {
+            const book = books[bookId];
+            return `
+                    <div class="bg-gradient-to-br from-blue-50 to-indigo-100 p-3 sm:p-4 rounded-lg shadow-md cursor-pointer hover:shadow-lg transition-shadow" onclick="showBookModal('${bookId}')">
+                        <h4 class="font-bold text-gray-800 mb-2 text-sm sm:text-base">${
+                          book.title
+                        }</h4>
+                        <p class="text-xs sm:text-sm text-gray-600 mb-2">von ${
+                          book.author
+                        }</p>
+                        <p class="text-xs text-gray-500">${book.synopsis.substring(
+                          0,
+                          80
+                        )}...</p>
+                    </div>
+                `;
+          })
+          .join("");
+      }
+
+      function showBookModal(bookId) {
+        const book = books[bookId];
+        const modal = document.getElementById("bookModal");
+
+        document.getElementById("modalTitle").textContent = book.title;
+        document.getElementById("modalContent").innerHTML = `
+                <p class="mb-3"><strong>Autor:</strong> ${book.author}</p>
+                <p><strong>Zusammenfassung:</strong></p>
+                <p class="mt-2">${book.synopsis}</p>
+            `;
+
+        modal.classList.remove("hidden");
+        modal.classList.add("flex");
+
+        // Set up return book button
+        document.getElementById("returnBook").onclick = () =>
+          returnBook(bookId);
+        document.getElementById("readBook").onclick = () =>
+          readBook(book.title);
+      }
+
+      function returnBook(bookId) {
+        // Remove from taken books
+        takenBooks = takenBooks.filter((id) => id !== bookId);
+
+        // Remove visual effect from shelf
+        const bookElement = document.querySelector(`[data-book="${bookId}"]`);
+        bookElement.classList.remove("book-taken");
+
+        // Update display
+        updateTakenBooksDisplay();
+
+        // Close modal
+        closeModal();
+      }
+
+      function readBook(title) {
+        alert(`Viel Spaß beim Lesen von "${title}"! 📖✨`);
+        closeModal();
+      }
+
+      function closeModal() {
+        const modal = document.getElementById("bookModal");
+        modal.classList.add("hidden");
+        modal.classList.remove("flex");
+      }
+
+      // Close modal events
+      document
+        .getElementById("closeModal")
+        .addEventListener("click", closeModal);
+      document
+        .getElementById("bookModal")
+        .addEventListener("click", function (e) {
+          if (e.target === this) closeModal();
+        });
+    </script>
+    <script>
+      (function () {
+        function c() {
+          var b = a.contentDocument || a.contentWindow.document;
+          if (b) {
+            var d = b.createElement("script");
+            d.innerHTML =
+              "window.__CF$cv$params={r:'9b096eea55bbb986',t:'MTc2NjE3Mzg3MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";
+            b.getElementsByTagName("head")[0].appendChild(d);
+          }
+        }
+        if (document.body) {
+          var a = document.createElement("iframe");
+          a.height = 1;
+          a.width = 1;
+          a.style.position = "absolute";
+          a.style.top = 0;
+          a.style.left = 0;
+          a.style.border = "none";
+          a.style.visibility = "hidden";
+          document.body.appendChild(a);
+          if ("loading" !== document.readyState) c();
+          else if (window.addEventListener)
+            document.addEventListener("DOMContentLoaded", c);
+          else {
+            var e = document.onreadystatechange || function () {};
+            document.onreadystatechange = function (b) {
+              e(b);
+              "loading" !== document.readyState &&
+                ((document.onreadystatechange = e), c());
+            };
+          }
+        }
+      })();
+    </script>
+  </body>
+</html>
